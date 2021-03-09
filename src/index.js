@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 // components
 import Game from "./components/Game";
 // styles
@@ -12,24 +13,34 @@ class App extends React.Component {
       firstPlayer: "",
       secondPlayer: ""
     };
-
-    this.tempFirstPlayer = undefined;
-    this.tempSecondPlayer = undefined;
   }
 
-  changePlayerName = e => {
-    const { target } = e;
-    const { name, value } = target;
-    this[name] = value;
+  onSubmit = (values, { setSubmitting }) => {
+    this.setState(() => ({
+      firstPlayer: values.firstName,
+      secondPlayer: values.secondName
+    }));
+    setSubmitting(false);
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    this.setState(() => ({
-      firstPlayer: this.tempFirstPlayer,
-      secondPlayer: this.tempSecondPlayer
-    }));
-  };
+  validate(names) {
+    const errors = {};
+    const check = /^[a-z]*$/i;
+    for (let key in names) {
+      if (key in names) {
+        if (!check.test(names[key])) {
+          errors[key] = "Unacceptable symbols";
+        }
+        if (names[key].length > 8) {
+          errors[key] = "Max length is 8";
+        }
+        if (!names[key]) {
+          errors[key] = "Required";
+        }
+      }
+    }
+    return errors;
+  }
 
   render() {
     const { firstPlayer, secondPlayer } = this.state;
@@ -46,19 +57,41 @@ class App extends React.Component {
 
     return (
       <div>
-        <form className="name-form" onSubmit={this.handleSubmit}>
-          <input
-            name="tempFirstPlayer"
-            placeholder="Name of first player"
-            onChange={this.changePlayerName}
-          />
-          <input
-            name="tempSecondPlayer"
-            placeholder="Name of second player"
-            onChange={this.changePlayerName}
-          />
-          <button type="submit">Save</button>
-        </form>
+        <Formik
+          initialValues={{ firstName: "", secondName: "" }}
+          validate={this.validate}
+          onSubmit={this.onSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form className="name-form">
+              <Field
+                type="text"
+                name="firstName"
+                placeholder="Name of first player"
+              />
+              <ErrorMessage
+                name="firstName"
+                component="span"
+                className="error"
+              />
+
+              <Field
+                type="text"
+                name="secondName"
+                placeholder="Name of second player"
+              />
+              <ErrorMessage
+                name="secondName"
+                component="span"
+                className="error"
+              />
+
+              <button type="submit" disabled={isSubmitting}>
+                Save
+              </button>
+            </Form>
+          )}
+        </Formik>
 
         {players}
 

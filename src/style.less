@@ -14,8 +14,16 @@ ul {
   flex-direction: column;
   align-items: flex-start;
 
-  & > input {
-    margin-bottom: 10px;
+  & input:not(:first-child) {
+    margin-top: 10px;
+  }
+  & .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  & button {
+    margin-top: 10px;
   }
 }
 
