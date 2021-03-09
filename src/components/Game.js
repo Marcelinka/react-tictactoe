@@ -94,13 +94,13 @@ export default class Game extends React.Component {
           </div>
           <div className="game-info">
             <div className="game-info__status">{this.readStatus()}</div>
-            <button className="game-info__sort" onClick={this.changeSort}>
-              Sort {sortAsc ? "desc" : "asc"}
-            </button>
             {stepNumber > 0 && <button onClick={this.reset}>Reset</button>}
           </div>
         </div>
         <div>
+          <button className="game-info__sort" onClick={this.changeSort}>
+            Sort {sortAsc ? "desc" : "asc"}
+          </button>
           <Steps history={history} jumpTo={this.jumpTo} sortAsc={sortAsc} />
         </div>
       </div>
