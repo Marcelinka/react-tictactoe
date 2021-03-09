@@ -98,9 +98,6 @@ class Game extends React.Component {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
 
-    const reset =
-      moves.length > 1 ? <button onClick={this.reset}>Reset</button> : "";
-
     return (
       <div className="game">
         <div className="game-board">
@@ -111,7 +108,7 @@ class Game extends React.Component {
           <button onClick={this.changeSort}>
             Sort {this.state.sortAsc ? "desc" : "asc"}
           </button>
-          {reset}
+          {moves.length > 1 && <button onClick={this.reset}>Reset</button>}
           <ol>{moves}</ol>
         </div>
       </div>
