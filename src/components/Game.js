@@ -8,6 +8,7 @@ import calculateWinner from "../helpers/calculateWinner";
 // components
 import Board from "./Board";
 import Steps from "./Steps";
+import Wrapper from "./Wrapper";
 
 export default class Game extends React.Component {
   constructor(props) {
@@ -96,7 +97,7 @@ export default class Game extends React.Component {
 
     return (
       <div>
-        <div className="game">
+        <Wrapper className="game">
           <div className="game-board">
             <Board
               squares={current.squares}
@@ -107,7 +108,7 @@ export default class Game extends React.Component {
             <div className="game-info__status">{this.readStatus()}</div>
             {stepNumber > 0 && <button onClick={this.reset}>Reset</button>}
           </div>
-        </div>
+        </Wrapper>
         <div>
           <button className="game-info__sort" onClick={this.changeSort}>
             Sort {sortAsc ? "desc" : "asc"}
