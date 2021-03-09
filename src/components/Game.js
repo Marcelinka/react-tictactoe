@@ -7,6 +7,7 @@ import initialState from "../constants/initialState";
 import calculateWinner from "../helpers/calculateWinner";
 // components
 import Board from "./Board";
+import Steps from "./Steps";
 
 export default class Game extends React.Component {
   constructor(props) {
@@ -49,12 +50,12 @@ export default class Game extends React.Component {
     }));
   }
 
-  jumpTo(step) {
+  jumpTo = step => {
     this.setState(() => ({
       stepNumber: step,
       xIsNext: step % 2 === 0
     }));
-  }
+  };
 
   reset = () => {
     this.setState(() => cloneDeep(initialState));
@@ -64,49 +65,43 @@ export default class Game extends React.Component {
     this.setState(state => ({ sortAsc: !state.sortAsc }));
   };
 
+  readStatus() {
+    const { winner, stepNumber, xIsNext } = this.state;
+
+    if (winner) {
+      return `Winner: ${winner}`;
+    }
+
+    if (stepNumber === 9) {
+      return "Withdraw";
+    }
+
+    return `Next player: ${xIsNext ? "X" : "O"}`;
+  }
+
   render() {
-    const history = this.state.history;
-    const current = history[this.state.stepNumber];
-
-    let moves = history.map((step, move) => {
-      const desc = move ? "Go to move #" + move : "Go to game start";
-      const position = move
-        ? `col: ${step.position.column}, row: ${step.position.row}`
-        : "";
-      const positionDesc = position ? <span>{position}</span> : "";
-      return (
-        <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>&nbsp;
-          {positionDesc}
-        </li>
-      );
-    });
-
-    if (!this.state.sortAsc) {
-      moves = moves.reverse();
-    }
-
-    let status;
-    if (this.state.winner) {
-      status = "Winner: " + this.state.winner;
-    } else if (moves.length === 10) {
-      status = "Withdraw";
-    } else {
-      status = "Next player: " + (this.state.xIsNext ? "X" : "O");
-    }
+    const { history, stepNumber, sortAsc } = this.state;
+    const current = history[stepNumber];
 
     return (
-      <div className="game">
-        <div className="game-board">
-          <Board squares={current.squares} onClick={i => this.handleClick(i)} />
+      <div>
+        <div className="game">
+          <div className="game-board">
+            <Board
+              squares={current.squares}
+              onClick={i => this.handleClick(i)}
+            />
+          </div>
+          <div className="game-info">
+            <div className="game-info__status">{this.readStatus()}</div>
+            <button className="game-info__sort" onClick={this.changeSort}>
+              Sort {sortAsc ? "desc" : "asc"}
+            </button>
+            {stepNumber > 0 && <button onClick={this.reset}>Reset</button>}
+          </div>
         </div>
-        <div className="game-info">
-          <div className="game-info__status">{status}</div>
-          <button className="game-info__sort" onClick={this.changeSort}>
-            Sort {this.state.sortAsc ? "desc" : "asc"}
-          </button>
-          {moves.length > 1 && <button onClick={this.reset}>Reset</button>}
-          <ol>{moves}</ol>
+        <div>
+          <Steps history={history} jumpTo={this.jumpTo} sortAsc={sortAsc} />
         </div>
       </div>
     );

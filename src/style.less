@@ -13,10 +13,15 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
+  & > input {
+    margin-bottom: 10px;
+  }
 }
 
-.name-form > input {
-  margin-bottom: 10px;
+.players {
+  display: grid;
+  grid-template-columns: 150px 150px;
 }
 
 .board-row:after {

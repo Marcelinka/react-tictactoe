@@ -25,22 +25,23 @@ class App extends React.Component {
     this.tempSecondPlayer = e.target.value;
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     this.setState(() => ({
       firstPlayer: this.tempFirstPlayer,
       secondPlayer: this.tempSecondPlayer
     }));
-  }
+  };
 
   render() {
-    const players = this.state.firstPlayer && this.state.secondPlayer && (
-      <div>
+    const { firstPlayer, secondPlayer } = this.state;
+    const players = firstPlayer && secondPlayer && (
+      <div className="players">
         <p>
-          Player <b>X</b>: {this.state.firstPlayer}
+          Player <b>X</b>: {firstPlayer}
         </p>
         <p>
-          Player <b>O</b>: {this.state.secondPlayer}
+          Player <b>O</b>: {secondPlayer}
         </p>
       </div>
     );
