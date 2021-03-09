@@ -1,3 +1,5 @@
-# react-naxfev
+### Введение в React
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/react-naxfev)
+Порядок действий взят с [оф. документации](https://ru.reactjs.org/tutorial/tutorial.html#wrapping-up)
+
+Выполнены все дополнительные задания, проведен легкий рефакторинг
