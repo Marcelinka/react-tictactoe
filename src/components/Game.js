@@ -65,18 +65,29 @@ export default class Game extends React.Component {
     this.setState(state => ({ sortAsc: !state.sortAsc }));
   };
 
+  getNameFromSign(sign) {
+    const { firstPlayer, secondPlayer } = this.props;
+    if (firstPlayer && sign === "X") {
+      return firstPlayer;
+    }
+    if (secondPlayer && sign === "O") {
+      return secondPlayer;
+    }
+    return sign;
+  }
+
   readStatus() {
     const { winner, stepNumber, xIsNext } = this.state;
 
     if (winner) {
-      return `Winner: ${winner}`;
+      return `Winner: ${this.getNameFromSign(winner)}`;
     }
 
     if (stepNumber === 9) {
       return "Withdraw";
     }
 
-    return `Next player: ${xIsNext ? "X" : "O"}`;
+    return `Next player: ${this.getNameFromSign(xIsNext ? "X" : "O")}`;
   }
 
   render() {

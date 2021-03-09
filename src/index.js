@@ -95,7 +95,7 @@ class App extends React.Component {
 
         {players}
 
-        <Game />
+        <Game firstPlayer={firstPlayer} secondPlayer={secondPlayer} />
       </div>
     );
   }
