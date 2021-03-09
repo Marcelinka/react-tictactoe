@@ -8,6 +8,17 @@ ul {
   padding-left: 30px;
 }
 
+.name-form {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.name-form > input {
+  margin-bottom: 10px;
+}
+
 .board-row:after {
   clear: both;
   content: "";
@@ -31,25 +42,32 @@ ul {
   padding: 0;
   text-align: center;
   width: 34px;
-}
 
-.square:focus {
-  outline: none;
-}
+  &_highlighted {
+    background: orange;
+  }
 
-.square_highlighted {
-  background: orange;
-}
+  &:focus {
+    outline: none;
 
-.kbd-navigation .square:focus {
-  background: #ddd;
+    .kbd-navigation & {
+      background: #ddd;
+    }
+  }
 }
 
 .game {
   display: flex;
   flex-direction: row;
-}
 
-.game-info {
-  margin-left: 20px;
+  &-info {
+    margin-left: 20px;
+
+    &__status {
+      margin-bottom: 5px;
+    }
+    &__sort {
+      margin-right: 5px;
+    }
+  }
 }
