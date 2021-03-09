@@ -17,12 +17,10 @@ class App extends React.Component {
     this.tempSecondPlayer = "";
   }
 
-  changeFirstPlayer = e => {
-    this.tempFirstPlayer = e.target.value;
-  };
-
-  changeSecondPlayer = e => {
-    this.tempSecondPlayer = e.target.value;
+  changePlayerName = e => {
+    const { target } = e;
+    const { name, value } = target;
+    this[name] = value;
   };
 
   handleSubmit = e => {
@@ -50,14 +48,14 @@ class App extends React.Component {
       <div>
         <form className="name-form" onSubmit={this.handleSubmit}>
           <input
-            name="first"
+            name="tempFirstPlayer"
             placeholder="Name of first player"
-            onChange={this.changeFirstPlayer}
+            onChange={this.changePlayerName}
           />
           <input
-            name="second"
+            name="tempSecondPlayer"
             placeholder="Name of second player"
-            onChange={this.changeSecondPlayer}
+            onChange={this.changePlayerName}
           />
           <button type="submit">Save</button>
         </form>
