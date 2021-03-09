@@ -13,8 +13,8 @@ class App extends React.Component {
       secondPlayer: ""
     };
 
-    this.tempFirstPlayer = "";
-    this.tempSecondPlayer = "";
+    this.tempFirstPlayer = undefined;
+    this.tempSecondPlayer = undefined;
   }
 
   changePlayerName = e => {
