@@ -59,13 +59,13 @@ class Game extends React.Component {
     }));
   }
 
-  reset() {
+  reset = () => {
     this.setState(() => cloneDeep(initialState));
-  }
+  };
 
-  changeSort() {
+  changeSort = () => {
     this.setState(state => ({ sortAsc: !state.sortAsc }));
-  }
+  };
 
   render() {
     const history = this.state.history;
@@ -99,11 +99,7 @@ class Game extends React.Component {
     }
 
     const reset =
-      moves.length > 1 ? (
-        <button onClick={() => this.reset()}>Reset</button>
-      ) : (
-        ""
-      );
+      moves.length > 1 ? <button onClick={this.reset}>Reset</button> : "";
 
     return (
       <div className="game">
@@ -112,7 +108,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <button onClick={() => this.changeSort()}>
+          <button onClick={this.changeSort}>
             Sort {this.state.sortAsc ? "desc" : "asc"}
           </button>
           {reset}
