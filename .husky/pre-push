@@ -1,5 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-git diff HEAD --quiet && npm run format
-git diff HEAD --quiet && npm run lint
+npm run format
+npm run lint
