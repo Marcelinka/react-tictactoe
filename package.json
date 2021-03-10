@@ -15,7 +15,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint src/** --cache",
-    "format": "prettier --check || prettier --write src/",
+    "format": "prettier --parser babel --check src/* || prettier --write src/",
     "prepare": "husky install"
   },
   "devDependencies": {
