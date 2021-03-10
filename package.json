@@ -14,8 +14,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint src/**",
-    "format": "prettier --write src/",
+    "lint": "eslint src/** --cache",
+    "format": "prettier --check || prettier --write src/",
     "prepare": "husky install"
   },
   "devDependencies": {
