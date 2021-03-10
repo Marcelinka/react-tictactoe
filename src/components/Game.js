@@ -1,16 +1,17 @@
-import React from "react";
-import { cloneDeep } from "lodash";
+import { cloneDeep } from 'lodash';
+import React from 'react';
+import PropTypes from 'prop-types';
 // constants
-import positions from "../constants/positions";
-import initialState from "../constants/initialState";
+import positions from '../constants/positions';
+import initialState from '../constants/initialState';
 // helpers
-import calculateWinner from "../helpers/calculateWinner";
+import calculateWinner from '../helpers/calculateWinner';
 // components
-import Board from "./Board";
-import Steps from "./Steps";
-import Wrapper from "./Wrapper";
+import Board from './Board';
+import Steps from './Steps';
+import Wrapper from './Wrapper';
 
-export default class Game extends React.Component {
+class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = cloneDeep(initialState);
@@ -19,9 +20,9 @@ export default class Game extends React.Component {
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
-    const squares = current.squares.map(square => ({
+    const squares = current.squares.map((square) => ({
       ...square,
-      highlighted: false
+      highlighted: false,
     }));
 
     if (this.state.winner || squares[i].value) {
@@ -29,32 +30,32 @@ export default class Game extends React.Component {
     }
 
     const position = positions[i];
-    squares[i] = { value: this.state.xIsNext ? "X" : "O", highlighted: true };
+    squares[i] = { value: this.state.xIsNext ? 'X' : 'O', highlighted: true };
 
     const winner = calculateWinner(squares);
     if (winner) {
-      for (const cell of winner.cells) {
+      winner.cells.forEach((cell) => {
         squares[cell].highlighted = true;
-      }
+      });
     }
 
-    this.setState(state => ({
+    this.setState((state) => ({
       history: history.concat([
         {
           squares,
-          position
-        }
+          position,
+        },
       ]),
       stepNumber: history.length,
       xIsNext: !state.xIsNext,
-      winner: winner ? winner.sign : ""
+      winner: winner ? winner.sign : '',
     }));
   }
 
-  jumpTo = step => {
+  jumpTo = (step) => {
     this.setState(() => ({
       stepNumber: step,
-      xIsNext: step % 2 === 0
+      xIsNext: step % 2 === 0,
     }));
   };
 
@@ -63,15 +64,15 @@ export default class Game extends React.Component {
   };
 
   changeSort = () => {
-    this.setState(state => ({ sortAsc: !state.sortAsc }));
+    this.setState((state) => ({ sortAsc: !state.sortAsc }));
   };
 
   getNameFromSign(sign) {
     const { firstPlayer, secondPlayer } = this.props;
-    if (firstPlayer && sign === "X") {
+    if (firstPlayer && sign === 'X') {
       return firstPlayer;
     }
-    if (secondPlayer && sign === "O") {
+    if (secondPlayer && sign === 'O') {
       return secondPlayer;
     }
     return sign;
@@ -85,10 +86,10 @@ export default class Game extends React.Component {
     }
 
     if (stepNumber === 9) {
-      return "Withdraw";
+      return 'Withdraw';
     }
 
-    return `Next player: ${this.getNameFromSign(xIsNext ? "X" : "O")}`;
+    return `Next player: ${this.getNameFromSign(xIsNext ? 'X' : 'O')}`;
   }
 
   render() {
@@ -101,17 +102,25 @@ export default class Game extends React.Component {
           <div className="game-board">
             <Board
               squares={current.squares}
-              onClick={i => this.handleClick(i)}
+              onClick={(i) => this.handleClick(i)}
             />
           </div>
           <div className="game-info">
             <div className="game-info__status">{this.readStatus()}</div>
-            {stepNumber > 0 && <button onClick={this.reset}>Reset</button>}
+            {stepNumber > 0 && (
+              <button type="button" onClick={this.reset}>
+                Reset
+              </button>
+            )}
           </div>
         </Wrapper>
         <div>
-          <button className="game-info__sort" onClick={this.changeSort}>
-            Sort {sortAsc ? "desc" : "asc"}
+          <button
+            type="button"
+            className="game-info__sort"
+            onClick={this.changeSort}
+          >
+            Sort {sortAsc ? 'desc' : 'asc'}
           </button>
           <Steps history={history} jumpTo={this.jumpTo} sortAsc={sortAsc} />
         </div>
@@ -119,3 +128,10 @@ export default class Game extends React.Component {
     );
   }
 }
+
+Game.propTypes = {
+  firstPlayer: PropTypes.string,
+  secondPlayer: PropTypes.string,
+};
+
+export default Game;

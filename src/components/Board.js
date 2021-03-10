@@ -1,8 +1,9 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 // components
-import Square from "./Square";
+import Square from './Square';
 
-export default class Board extends React.Component {
+class Board extends React.Component {
   renderSquare(i) {
     return (
       <Square
@@ -18,10 +19,11 @@ export default class Board extends React.Component {
     let tableCell = -1;
     const table = new Array(3).fill(undefined).map((el, i) => {
       const tableRow = new Array(3).fill(undefined).map(() => {
-        tableCell++;
+        tableCell += 1;
         return this.renderSquare(tableCell);
       });
       return (
+        // eslint-disable-next-line react/no-array-index-key
         <div className="board-row" key={i}>
           {tableRow}
         </div>
@@ -31,3 +33,12 @@ export default class Board extends React.Component {
     return <div>{table}</div>;
   }
 }
+
+Board.propTypes = {
+  squares: PropTypes.arrayOf(
+    PropTypes.shape({ value: PropTypes.string, highlighted: PropTypes.bool }),
+  ).isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
+export default Board;
